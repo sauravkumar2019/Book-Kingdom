@@ -30,7 +30,9 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 
 // for Database connected  online
 
-const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
+DB_URL = "mongodb+srv://our-first-app:Qwerty@1234567890@cluster0.ph4qd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+
+const dbUrl = DB_URL || 'mongodb://localhost:27017/yelp-camp';
 
 // for offline
 
