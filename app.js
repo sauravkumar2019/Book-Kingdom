@@ -19,10 +19,10 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 
 
-
 const userRoutes = require('./routes/users');
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
+const { MongoStore } = require('connect-mongo');
 
 const MongoDBStore = require("connect-mongodb-session")(session);
 
@@ -30,9 +30,7 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 
 // for Database connected  online
 
-DB_URL = "mongodb+srv://our-first-app:Qwerty@1234567890@cluster0.ph4qd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-
-const dbUrl = DB_URL || 'mongodb://localhost:27017/yelp-camp';
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
 
 // for offline
 
