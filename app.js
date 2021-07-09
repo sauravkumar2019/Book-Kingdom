@@ -2,7 +2,6 @@ if (process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
 
-
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -15,24 +14,14 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const helmet = require('helmet');
-
 const mongoSanitize = require('express-mongo-sanitize');
-
-
 const userRoutes = require('./routes/users');
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
-const { MongoStore } = require('connect-mongo');
 
-const MongoDBStore = require("connect-mongodb-session")(session);
-
-// const dbUrl = process.env.DB_URL;
-
-// for Database connected  online
+const MongoDBStore = require('connect-mongo');
 
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
-
-// for offline
 
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
@@ -59,24 +48,19 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(mongoSanitize({
     replaceWith: '_'
 }))
-
 const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 
-const store = new MongoDBStore({
-    url: dbUrl,
+const store = MongoDBStore.create({
+    mongoUrl: dbUrl,
     secret,
     touchAfter: 24 * 60 * 60
-
-})
+});
 
 store.on("error", function (e) {
-
-    console.log("SESSION STORE ERROR", e);
-
+    console.log("SESSION STORE ERROR", e)
 })
 
 const sessionConfig = {
-
     store,
     name: 'session',
     secret,
@@ -175,8 +159,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err })
 })
 
-const port = process.env.PORT || process.env.IP || 3000;
-
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
-    console.log(`Serving on port ${port}`);
+    console.log(`Serving on port ${port}`)
 })
